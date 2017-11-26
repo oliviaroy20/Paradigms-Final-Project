@@ -59,6 +59,25 @@ class _restaurant_database:
 		else: 
 			return None 	
 
+#add a user to the dictionary
+	def set_user(self, uid, user):
+		uid = str(uid)
+		if uid in self.get_users(): 
+			self.users[uid]["Smoker"] = user[0]
+			self.users[uid]["Drink Level"] = user[1]
+			self.users[uid]["Ambience"] = user[2]
+			self.users[uid]["Transport"] = user[3]
+			self.users[uid]["Budget"] = user[4]
+			self.users[uid]["Cuisine"] = user[5]
+			self.users[uid]["Payment"] = user[6]
+		else: 
+			userDict ={"Smoker": user[0], "Drink Level" : user[1], "Ambience": user[2], "Transport": user[3], "Budget": user[4], "Cuisine" : user[5], "Payment": user[6]}
+			self.users[str(uid)] = userDict
+
+#delete a specific user
+	def delete_user(self, uid):
+		if str(uid) in self.get_users():
+			del self.users[str(uid)]
 
 
 

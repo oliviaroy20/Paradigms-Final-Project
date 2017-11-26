@@ -22,9 +22,28 @@ class TestRestaurantDatabase(unittest.TestCase):
 		self.assertEquals(user[4], 'low')
 		self.assertEquals(user[5], 'Mexican')
 		self.assertEquals(user[6], 'cash')
+
+	def test_set_user(self):
+		self.reset_data()
+		user = self.rdb.get_user("U1002")
+		user[3] = 'car owner' 
+		user[4]= 'high'
+		self.rdb.set_user("U1003", user)
+		self.assertEquals(user[0], 'false')
+		self.assertEquals(user[1], 'abstemious')
+		self.assertEquals(user[2], 'informal')
+		self.assertEquals(user[3], 'car owner')
+		self.assertEquals(user[4], 'high')
+		self.assertEquals(user[5], 'Mexican')
+		self.assertEquals(user[6], 'cash')
+
+	def test_delete_user(self):
+		self.reset_data()
+		self.rdb.delete_user("U1002")
+		user = self.rdb.get_user("U1002")
+		self.assertEquals(user, None)
 	
 
 
-
-if __name__ == "__main__":
+if  __name__ == "__main__":
 	unittest.main() 
