@@ -165,5 +165,34 @@ class _restaurant_database:
 		else:	
 			return None
 						
-
-
+#sets a restaurant to input given which is a restaurant and a given id 
+	def set_restaurant(self, rid, restaurant):
+		rid = str(rid)
+		if rid in self.get_restaurants(): 
+			self.restaurants[rid]["Location"]["Latitude"] = restaurant[0][0]
+			self.restaurants[rid]["Location"]["Longitude"] = restaurant[0][1]
+			self.restaurants[rid]["Location"]["Address"] = restaurant[0][2]
+			self.restaurants[rid]["Location"]["City"] = restaurant[0][3]
+			self.restaurants[rid]["Location"]["State"]= restaurant[0][4]
+			self.restaurants[rid]["Location"]["Country"] = restaurant[0][5]
+			self.restaurants[rid]["Location"]["Zipcode"] = restaurant[0][6]
+			self.restaurants[rid]["Name"]= restaurant[1]
+			self.restaurants[rid]["Alcohol"] = restaurant[2]
+			self.restaurants[rid]["Smoking Area"] = restaurant[3]
+			self.restaurants[rid]["Dress Code"] = restaurant[4]
+			self.restaurants[rid]["Price"] = restaurant[5]
+			self.restaurants[rid]["URL"] = restaurant[6]
+			self.restaurants[rid]["Payment Accepted"] = restaurant[7]
+			self.restaurants[rid]["Cuisine"] = restaurant[8]
+			self.restaurants[rid]["Parking"] = restaurant[9]
+			self.restaurants[rid]["Sun;"] = restaurant[10]
+			self.restaurants[rid]["Sat;"] = restaurant[11]
+			self.restaurants[rid]["Mon;Tue;Wed;Thu;Fri;"] = restaurant[12]
+		else: 
+			location = {"Latitude": restaurant[0][0], "Longitude": restaurant[0][1], "Address": restaurant[0][2], "City": restaurant[0][3], "State": restaurant[0][4], "Country": restaurant[0][5], "Zipcode": restaurant[0][6]}
+			restDict = {"Location": location, "Name": restaurant[1], "Alcohol": restaurant[2], "Smoking Area": restaurant[3], "Dress Code": restaurant[4], "Price": restaurant[5], "URL": restaurant[6], "Payment Accepted": restaurant[7], "Cuisine": restaurant[8], "Parking": restaurant[9], "Sun;":restaurant[10], "Sat;":restaurant[11], "Mon;Tue;Wed;Thu;Fri;": restaurant[12]}
+			self.restaurants[rid] = restDict
+#delete a given restaurant
+	def delete_restaurant(self, rid):
+		if str(rid) in self.get_restaurants(): 
+			del self.restaurants[str(rid)]

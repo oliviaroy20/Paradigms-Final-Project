@@ -29,7 +29,8 @@ class TestRestaurantDatabase(unittest.TestCase):
 		user = self.rdb.get_user("U1002")
 		user[3] = 'car owner' 
 		user[4]= 'high'
-		self.rdb.set_user("U1003", user)
+		self.rdb.set_user("U1002", user)
+		user = self.rdb.get_user("U1002")
 		self.assertEquals(user[0], 'false')
 		self.assertEquals(user[1], 'abstemious')
 		self.assertEquals(user[2], 'informal')
@@ -58,10 +59,29 @@ class TestRestaurantDatabase(unittest.TestCase):
 		self.assertEquals(r[5], 'low')
 		self.assertEquals(r[6], None) 
 		
-		
+	def test_set_restaurant(self):
+		self.reset_data()
+		r = self.rdb.get_restaurant("132825")
+		r[0][0] = "150"
+		r[1] = "new name"
+		r[5] = "high"
+		r[6] = "url"
+		self.rdb.set_restaurant("132825", r)
+		r = self.rdb.get_restaurant("132825")
+		self.assertEquals(r[0][0] , "150")
+		self.assertEquals(r[1]	, "new name")
+		self.assertEquals(r[2], "No_Alcohol_Served")
+		self.assertEquals(r[3], "none")
+		self.assertEquals(r[4], "informal")
+		self.assertEquals(r[5], "high")
+		self.assertEquals(r[6], "url")
+
+	def test_delete_restaurant(self):
+		self.reset_data()
+		self.rdb.delete_restaurant("132825")
+		r = self.rdb.get_restaurant("132825")
+		self.assertEquals(r, None)	
 
 
-
-
-if  __name__ == "__main__":
+if __name__ == "__main__":
 	unittest.main() 
