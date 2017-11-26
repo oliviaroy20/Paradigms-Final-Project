@@ -11,6 +11,7 @@ class TestRestaurantDatabase(unittest.TestCase):
 
 	def reset_data(self): 
 		self.rdb.load_users()
+		self.rdb.load_restaurants()
 
 	def test_get_user(self):
 		self.reset_data()
@@ -43,6 +44,13 @@ class TestRestaurantDatabase(unittest.TestCase):
 		user = self.rdb.get_user("U1002")
 		self.assertEquals(user, None)
 	
+
+	def test_get_restaurant(self): 
+		for key,values in self.rdb.restaurants.items():
+			print(values)	
+	
+
+
 
 
 if  __name__ == "__main__":

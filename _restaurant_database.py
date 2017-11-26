@@ -1,6 +1,7 @@
 class _restaurant_database: 
 	def __init__(self): 
 		self.users = dict()
+		self.restaurants = dict()
 	
 	def load_users(self): 
 		self.users.clear()
@@ -12,7 +13,7 @@ class _restaurant_database:
 				if s == "?": 
 					lineSplit[index] = None
 				index = index +1
-			self.users[lineSplit[0]] = {"Smoker": lineSplit[3], "Drink Level" : lineSplit[4], "Ambience" : lineSplit[5], "Transport" : lineSplit[7], "Budget": lineSplit[17], "Cuisine": None, "Payment": None}
+			self.users[str(lineSplit[0])] = {"Smoker": lineSplit[3], "Drink Level" : lineSplit[4], "Ambience" : lineSplit[5], "Transport" : lineSplit[7], "Budget": lineSplit[17], "Cuisine": None, "Payment": None}
 		myfile.close()
 		myfile = open("data/userCuisine.csv")
 		users = self.get_users()
@@ -26,7 +27,7 @@ class _restaurant_database:
 				else:
 					user = lineSplit[0]
 					cuisine = lineSplit[1].rstrip()
-				self.users[user]["Cuisine"] = cuisine
+				self.users[str(user)]["Cuisine"] = cuisine
 				
 	
 		myfile.close()
@@ -41,7 +42,7 @@ class _restaurant_database:
 				else: 
 					user = lineSplit[0]
 					payment = lineSplit[1].rstrip()
-				self.users[user]["Payment"] = payment
+				self.users[str(user)]["Payment"] = payment
 		myfile.close()
 					
 
@@ -79,14 +80,82 @@ class _restaurant_database:
 		if str(uid) in self.get_users():
 			del self.users[str(uid)]
 
+#read data from different data sources and create dictionaries for each restaurant 
+	def load_restaurants(self): 
+		self.restaurants.clear()
+		#start with restaurants.csv as base of information
+		myfile = open("data/restaurants.csv")
+		first_line = myfile.readline()
+		for line in myfile: 
+			lineSplit = line.split(",")
+			#change all ?s to None
+			index = 0
+			for s in lineSplit:
+				if s == "?":
+					lineSplit[index] = None
+				index = index +1
+			location = {"Latitude": lineSplit[1], "Longitude": lineSplit[2], "Address": lineSplit[5], "City": lineSplit[6], "State": lineSplit[7], "Country": lineSplit[8], "Zipcode": lineSplit[10] }
+			self.restaurants[str(lineSplit[0])] = {"Location": location,  "Name": lineSplit[4],"Alcohol": lineSplit[11], "Smoking Area": lineSplit[12], "Dress Code": lineSplit[13], "Price": lineSplit[15], "URL": lineSplit[16]}
+		myfile.close()
+		myfile = open("data/restaurantPaymentAccepted.csv")
+		firstLine = myfile.readline()
+		payment = ""
+		restaurant = ""
+		restaurants = self.get_restaurants()
+		for line in myfile: 
+			lineSplit = line.split(",")
+			if lineSplit[0] in restaurants: 	
+				if lineSplit[0] == restaurant: 
+					payment = payment + "|" + lineSplit[1].rstrip()
+				else:
+					restaurant = lineSplit[0]
+					payment = lineSplit[1].rstrip()
+				self.restaurants[restaurant]["Payment Accepted"] = payment 
+		myfile.close()
+		myfile = open("data/restaurantCuisine.csv")
+		firstLine = myfile.readline()
+		restaurant = ""
+		cuisine = ""
+		for line in myfile:
+			lineSplit = line.split(",")
+			if lineSplit[0] in restaurants:
+				if lineSplit[0] == restaurant:	
+					cuisine = cuisine + "|" + lineSplit[1].rstrip()
+				else: 
+					restaurant = lineSplit[0]
+					cuisine = lineSplit[1].rstrip()
+				self.restaurants[restaurant]["Cuisine"] = cuisine
+		myfile.close()
+		myfile = open("data/restaurantParking.csv")
+		firstLine =  myfile.readline()
+		restaurant = ""
+		parking = ""
+		for line in myfile: 
+			lineSplit = line.split(",")
+			if lineSplit[0] in restaurants:
+				if lineSplit[0] == restaurant: 
+					parking = parking +"|"+ lineSplit[1].rstrip()
+				else: 	
+					restaurant = lineSplit[0]
+					parking = lineSplit[1].rstrip()
+				self.restaurants[restaurant]["Parking"] = parking
+		myfile.close()
+		myfile = open("data/restaurantHours.csv")
+		firstLine =  myfile.readline()
+		#if multiple entries, use the last entry in the file
+		#if multiple times in an entyr, use first time given 
+		for line in myfile: 
+			lineSplit = line.split(",")
+			if lineSplit[0] in restaurants:
+				time = lineSplit[1]
+				if ";" in time: 
+					time = lineSplit[1].split(";")[0]
+				self.restaurants[lineSplit[0]][lineSplit[2].rstrip()] = time
+		myfile.close()
 
-
-
-
-
-
-
-
-
+	def get_restaurants(self):
+		return self.restaurants.keys()
+				
+					
 
 
