@@ -46,9 +46,19 @@ class TestRestaurantDatabase(unittest.TestCase):
 	
 
 	def test_get_restaurant(self): 
-		for key,values in self.rdb.restaurants.items():
-			print(values)	
-	
+#		for key,values in self.rdb.restaurants.items():
+#			print(self.rdb.get_restaurant(key))	
+		self.reset_data()
+		r =self.rdb.get_restaurant("132825")
+		self.assertEquals(r[0][0], '22.1473922')
+		self.assertEquals(r[1], 'puesto de tacos')
+		self.assertEquals(r[2], 'No_Alcohol_Served')
+		self.assertEquals(r[3], 'none')
+		self.assertEquals(r[4], 'informal')
+		self.assertEquals(r[5], 'low')
+		self.assertEquals(r[6], None) 
+		
+		
 
 
 

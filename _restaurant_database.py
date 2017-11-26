@@ -95,7 +95,7 @@ class _restaurant_database:
 					lineSplit[index] = None
 				index = index +1
 			location = {"Latitude": lineSplit[1], "Longitude": lineSplit[2], "Address": lineSplit[5], "City": lineSplit[6], "State": lineSplit[7], "Country": lineSplit[8], "Zipcode": lineSplit[10] }
-			self.restaurants[str(lineSplit[0])] = {"Location": location,  "Name": lineSplit[4],"Alcohol": lineSplit[11], "Smoking Area": lineSplit[12], "Dress Code": lineSplit[13], "Price": lineSplit[15], "URL": lineSplit[16]}
+			self.restaurants[str(lineSplit[0])] = {"Location": location,  "Name": lineSplit[4],"Alcohol": lineSplit[11], "Smoking Area": lineSplit[12], "Dress Code": lineSplit[13], "Price": lineSplit[15], "URL": lineSplit[16], "Sun;": None, "Sat;": None, "Mon;Tue;Wed;Thu;Fri;": None, "Payment Accepted": None, "Cuisine": None, "Parking": None}
 		myfile.close()
 		myfile = open("data/restaurantPaymentAccepted.csv")
 		firstLine = myfile.readline()
@@ -152,10 +152,18 @@ class _restaurant_database:
 					time = lineSplit[1].split(";")[0]
 				self.restaurants[lineSplit[0]][lineSplit[2].rstrip()] = time
 		myfile.close()
-
+#returns a list of keys of restaurants
 	def get_restaurants(self):
 		return self.restaurants.keys()
-				
-					
+		
+#returns an array of a specific restaurant 
+	def get_restaurant(self, rid):
+		rid = str(rid)
+		if rid in self.get_restaurants():
+			restaurantList  = [list(self.restaurants[rid]["Location"].values()), self.restaurants[rid]["Name"], self.restaurants[rid]["Alcohol"], self.restaurants[rid]["Smoking Area"], self.restaurants[rid]["Dress Code"], self.restaurants[rid]["Price"], self.restaurants[rid]["URL"], self.restaurants[rid]["Payment Accepted"], self.restaurants[rid]["Cuisine"], self.restaurants[rid]["Parking"], self.restaurants[rid]["Sun;"], self.restaurants[rid]["Sat;"], self.restaurants[rid]["Mon;Tue;Wed;Thu;Fri;"]]
+			return restaurantList
+		else:	
+			return None
+						
 
 
