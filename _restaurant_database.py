@@ -200,24 +200,26 @@ class _restaurant_database:
 
 	def load_ratings(self):
 		f = open("data/ratings.csv")
+		firstLine = f.readline()
 		for line in f:
 			info = line.rstrip().split(",")
-			if info[0] == "userID":
-				continue
 			uid = info[0]
 			rid = info[1]
 			rating = float(info[2])
 			foodrating = float(info[3])
 			servrating = float(info[4])
-			if uid not in self.ratings:
-				self.ratings[rid] = {}
-			self.ratings[rid][uid] = []
-			self.ratings[rid][uid].append(rating)
-			self.ratings[rid][uid].append(foodrating)
-			self.ratings[rid][uid].append(servrating)
-			print(rid)
-			print(self.ratings[rid])
+			if rid not in self.ratings.keys():
+				self.ratings[rid] = dict()
+			if uid not in self.ratings[rid].keys():
+				self.ratings[rid][uid] = []
+				self.ratings[rid][uid].append(rating)
+				self.ratings[rid][uid].append(foodrating)
+				self.ratings[rid][uid].append(servrating)
+			#print(rid)
+			#print(self.ratings[
 		f.close()
+		#print(self.ratings)
+		
 
 	def get_rating(self, rid):
 		total = 0
