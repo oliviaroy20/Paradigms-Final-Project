@@ -2,6 +2,7 @@ class _restaurant_database:
 	def __init__(self): 
 		self.users = dict()
 		self.restaurants = dict()
+		self.ratings = dict()
 	
 	def load_users(self): 
 		self.users.clear()
@@ -196,3 +197,64 @@ class _restaurant_database:
 	def delete_restaurant(self, rid):
 		if str(rid) in self.get_restaurants(): 
 			del self.restaurants[str(rid)]
+
+	def load_ratings(self):
+		f = open("data/ratings.csv")
+		for line in f:
+			info = line.rstrip().split(",")
+			if info[0] == "userID":
+				continue
+			uid = info[0]
+			rid = info[1]
+			rating = float(info[2])
+			foodrating = float(info[3])
+			servrating = float(info[4])
+			if uid not in self.ratings:
+				self.ratings[rid] = {}
+			self.ratings[rid][uid] = []
+			self.ratings[rid][uid].append(rating)
+			self.ratings[rid][uid].append(foodrating)
+			self.ratings[rid][uid].append(servrating)
+			print(rid)
+			print(self.ratings[rid])
+		f.close()
+
+	def get_rating(self, rid):
+		total = 0
+		numRatings = 0
+		if rid in self.ratings:
+			for uid in self.ratings[rid]:
+				rating = self.ratings[rid][uid][0]
+				numRatings = numRatings + 1
+				total = float(total + rating)
+			average = total / float(numRatings)
+			return average
+		else:
+			return 0
+	
+	def get_foodrating(self, rid):
+		total = 0
+		numRatings = 0
+		if rid in self.ratings:
+			for uid in self.ratings[rid]:
+				rating = self.ratings[rid][uid][1]
+				numRatings = numRatings + 1
+				total = float(total + rating)
+			average = total / numRatings
+			return average
+		else:
+			return 0
+
+	def get_servrating(self, rid):
+		total = 0
+		numRatings = 0
+		if rid in self.ratings:
+			for uid in self.ratings[rid]:
+				rating = self.ratings[rid][uid][2]
+				numRatings = numRatings + 1
+				total = float(total + rating)
+			average = total / numRatings
+			return average
+		else:
+			return 0
+

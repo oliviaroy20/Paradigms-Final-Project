@@ -12,6 +12,7 @@ class TestRestaurantDatabase(unittest.TestCase):
 	def reset_data(self): 
 		self.rdb.load_users()
 		self.rdb.load_restaurants()
+		self.rdb.load_ratings()
 
 	def test_get_user(self):
 		self.reset_data()
@@ -80,8 +81,12 @@ class TestRestaurantDatabase(unittest.TestCase):
 		self.reset_data()
 		self.rdb.delete_restaurant("132825")
 		r = self.rdb.get_restaurant("132825")
-		self.assertEquals(r, None)	
+		self.assertEquals(r, None)
 
+	def test_get_rating(self):
+		self.reset_data()
+		rating = self.rdb.get_rating("132825")
+		self.assertEquals(rating, "1.28125")
 
 if __name__ == "__main__":
 	unittest.main() 
