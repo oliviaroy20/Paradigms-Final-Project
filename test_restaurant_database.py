@@ -88,5 +88,54 @@ class TestRestaurantDatabase(unittest.TestCase):
 		rating = self.rdb.get_rating("132825")
 		self.assertEquals(rating, 1.28125)
 
+	def test_get_foodrating(self):
+		self.reset_data()
+		rating = self.rdb.get_foodrating("132825")
+		self.assertEquals(rating, 1.34375)
+
+	def test_get_servrating(self):
+		self.reset_data()
+		rating = self.rdb.get_servrating("132825")
+		self.assertEquals(rating, 0.9375)
+
+#	def test_set_user_restaurant_ratings_change(self):
+#		#test for changing existing user rating
+#		self.reset_data()
+#		self.rdb.set_user_restaurant_ratings("U1002", "132825", [1, 1, 1])
+#		newRating = self.rdb.get_rating("132825")
+#		self.assertEquals(newRating, 1.25)
+
+	def test_set_user_restaurant_ratings_add(self):
+		#test for adding ratings for an existing user
+		self.reset_data()
+		self.rdb.set_user_restaurant_ratings("U1096", "132825", [1, 1, 1])
+		newRating = self.rdb.get_rating("132825")
+		self.assertEquals(newRating, 1.2727272727272727)
+	
+
+	def test_filter_by_price(self):
+		self.reset_data()
+		matches = self.rdb.filter_by_price("high")
+		self.assertEquals(matches, ["135040", "132875", "135065",
+		"135076", "132862", "134983", "135045", "135054", "134975",
+		"135053", "135050", "135079", "134992", "135080", "135066",
+		"135055", "135074", "135064", "135052", "135026", "135047",
+		"135035", "135048", "135073", "134986"])
+
+	def test_filter_by_cuisine(self):
+		self.reset_data()
+		matches = self.rdb.filter_by_cuisine("Mexican")
+		self.assertEquals(len(matches), 28)
+
+	def test_filter_by_dresscode(self):
+		self.reset_data()
+		matches = self.rdb.filter_by_dresscode("casual")
+		self.assertEquals(len(matches), 10)
+
+	def test_filter_by_payment(self):
+		self.reset_data()
+		matches = self.rdb.filter_by_payment("cash")
+		self.assertEquals(len(matches), 113)
+
 if __name__ == "__main__":
 	unittest.main() 

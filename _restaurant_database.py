@@ -220,7 +220,7 @@ class _restaurant_database:
 		f.close()
 		#print(self.ratings)
 		
-
+# return the average overall rating of a restaurant
 	def get_rating(self, rid):
 		total = 0
 		numRatings = 0
@@ -233,7 +233,8 @@ class _restaurant_database:
 			return average
 		else:
 			return 0
-	
+
+# return the average food rating of a restaurant
 	def get_foodrating(self, rid):
 		total = 0
 		numRatings = 0
@@ -247,6 +248,7 @@ class _restaurant_database:
 		else:
 			return 0
 
+# return the average service rating of a restaurant
 	def get_servrating(self, rid):
 		total = 0
 		numRatings = 0
@@ -260,3 +262,46 @@ class _restaurant_database:
 		else:
 			return 0
 
+# if user exists, allow them to add or change a rating for a given rid
+# given uid, rid, and a list containing overall rating, service rating,
+# and food rating
+	def set_user_restaurant_ratings(self, uid, rid, ratings):
+		#if rid not in self.ratings:
+			#self.ratings[rid] = {}
+		self.ratings[rid][uid] = ratings
+
+	def filter_by_price(self, pricepoint):
+		matches = []
+		for rid in self.restaurants:
+			if self.restaurants[rid]["Price"] == pricepoint:
+				matches.append(rid)
+		return matches
+
+	def filter_by_cuisine(self, cuisinetype):
+		matches = []
+		for rid in self.restaurants:
+			cuisineString = self.restaurants[rid]["Cuisine"]
+			if cuisineString != None:
+				cuisines = cuisineString.split("|")
+				for cuisine in cuisines:
+					if cuisine == cuisinetype:
+						matches.append(rid)
+		return matches
+
+	def filter_by_dresscode(self, dresscode):
+		matches = []
+		for rid in self.restaurants:
+			if self.restaurants[rid]["Dress Code"] == dresscode:
+				matches.append(rid)
+		return matches
+
+	def filter_by_payment(self, paymenttype):
+		matches = []
+		for rid in self.restaurants:
+			paymentString = self.restaurants[rid]["Payment Accepted"]
+			if paymentString != None:
+				payments = paymentString.split("|")
+				for payment in payments:
+					if payment == paymenttype:
+						matches.append(rid)
+		return matches
