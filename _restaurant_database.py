@@ -199,6 +199,7 @@ class _restaurant_database:
 			del self.restaurants[str(rid)]
 
 	def load_ratings(self):
+		self.ratings.clear()
 		f = open("data/ratings.csv")
 		firstLine = f.readline()
 		for line in f:

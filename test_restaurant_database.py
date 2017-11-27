@@ -98,12 +98,14 @@ class TestRestaurantDatabase(unittest.TestCase):
 		rating = self.rdb.get_servrating("132825")
 		self.assertEquals(rating, 0.9375)
 
-#	def test_set_user_restaurant_ratings_change(self):
+	def test_set_user_restaurant_ratings_change(self):
 #		#test for changing existing user rating
-#		self.reset_data()
-#		self.rdb.set_user_restaurant_ratings("U1002", "132825", [1, 1, 1])
-#		newRating = self.rdb.get_rating("132825")
-#		self.assertEquals(newRating, 1.25)
+		self.reset_data()
+		#print(self.rdb.get_rating("132825"))
+		self.rdb.set_user_restaurant_ratings("U1002", "132825", [1, 1, 1])
+		newRating = self.rdb.get_rating("132825")
+	#	print(newRating)
+		self.assertEquals(newRating, 1.25)
 
 	def test_set_user_restaurant_ratings_add(self):
 		#test for adding ratings for an existing user
