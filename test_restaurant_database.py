@@ -86,7 +86,7 @@ class TestRestaurantDatabase(unittest.TestCase):
 	def test_get_rating(self):
 		self.reset_data()
 		rating = self.rdb.get_rating("132825")
-		self.assertEquals(rating, "1.28125")
+		self.assertEquals(rating, 1.28125)
 
 if __name__ == "__main__":
 	unittest.main() 

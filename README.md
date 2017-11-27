@@ -10,6 +10,6 @@ Cuisine they like, how they can pay, drinking status, smoking status, ambiance p
 
 Users can rate restaurants overall, by food, and by service. 
 
-Ultimately the API will be able to give recommendations based on location, and price, ammendities, and payment type. 
-Additionally, users will be able to rate the restaurant.  
+Ultimately the API will be able to give recommendations based price, ammendities, and payment type. 
+Additionally, users will be able to rate the restaurant.  They will be able to see the location of the restaurants on a map.
 
