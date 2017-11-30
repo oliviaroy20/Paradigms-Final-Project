@@ -14,36 +14,38 @@ class _restaurant_database:
 				if s == "?": 
 					lineSplit[index] = None
 				index = index +1
-			self.users[str(lineSplit[0])] = {"Smoker": lineSplit[3], "Drink Level" : lineSplit[4], "Ambience" : lineSplit[5], "Transport" : lineSplit[7], "Budget": lineSplit[17], "Cuisine": None, "Payment": None}
+			self.users[int(lineSplit[0][1:])] = {"Smoker": lineSplit[3], "Drink Level" : lineSplit[4], "Ambience" : lineSplit[5], "Transport" : lineSplit[7], "Budget": lineSplit[17], "Cuisine": None, "Payment": None}
 		myfile.close()
 		myfile = open("data/userCuisine.csv")
 		users = self.get_users()
 		cuisine = "" 
-		user = ""
+		user = -1
 		for line in myfile: 
 			lineSplit = line.split(",")
-			if lineSplit[0] in users: 
-				if lineSplit[0] == user: 
+			uidTemp = int(lineSplit[0][1:])
+			if uidTemp in users: 
+				if uidTemp == user: 
 					cuisine = cuisine + "|" + lineSplit[1].rstrip()
 				else:
-					user = lineSplit[0]
+					user = uidTemp
 					cuisine = lineSplit[1].rstrip()
-				self.users[str(user)]["Cuisine"] = cuisine
+				self.users[user]["Cuisine"] = cuisine
 				
 	
 		myfile.close()
 		myfile = open("data/userPayment.csv")
-		user = ""
+		user = -1
 		payment= ""
 		for line in myfile: 
 			lineSplit = line.split(",")
-			if lineSplit[0] in users: 
-				if lineSplit[0] == user: 
+			uidTemp = int(lineSplit[0][1:])
+			if uidTemp in users: 
+				if uidTemp == user: 
 					payment = payment + "|" + lineSplit[1].rstrip()
 				else: 
-					user = lineSplit[0]
+					user = uidTemp
 					payment = lineSplit[1].rstrip()
-				self.users[str(user)]["Payment"] = payment
+				self.users[user]["Payment"] = payment
 		myfile.close()
 					
 
@@ -54,7 +56,7 @@ class _restaurant_database:
 			
 #returns a list of a specfic user
 	def get_user(self, uid): 
-		uid = str(uid)
+		uid = int(uid)
 		if uid in self.get_users():	
 			userList = [ self.users[uid]["Smoker"], self.users[uid]["Drink Level"], self.users[uid]["Ambience"], self.users[uid]["Transport"], self.users[uid]["Budget"], self.users[uid]["Cuisine"], self.users[uid]["Payment"]]
 			return userList
@@ -63,7 +65,7 @@ class _restaurant_database:
 
 #add a user to the dictionary
 	def set_user(self, uid, user):
-		uid = str(uid)
+		uid = int(uid)
 		if uid in self.get_users(): 
 			self.users[uid]["Smoker"] = user[0]
 			self.users[uid]["Drink Level"] = user[1]
@@ -74,12 +76,12 @@ class _restaurant_database:
 			self.users[uid]["Payment"] = user[6]
 		else: 
 			userDict ={"Smoker": user[0], "Drink Level" : user[1], "Ambience": user[2], "Transport": user[3], "Budget": user[4], "Cuisine" : user[5], "Payment": user[6]}
-			self.users[str(uid)] = userDict
+			self.users[int(uid)] = userDict
 
 #delete a specific user
 	def delete_user(self, uid):
-		if str(uid) in self.get_users():
-			del self.users[str(uid)]
+		if int(uid) in self.get_users():
+			del self.users[int(uid)]
 
 #read data from different data sources and create dictionaries for each restaurant 
 	def load_restaurants(self): 
@@ -96,48 +98,51 @@ class _restaurant_database:
 					lineSplit[index] = None
 				index = index +1
 			location = {"Latitude": lineSplit[1], "Longitude": lineSplit[2], "Address": lineSplit[5], "City": lineSplit[6], "State": lineSplit[7], "Country": lineSplit[8], "Zipcode": lineSplit[10] }
-			self.restaurants[str(lineSplit[0])] = {"Location": location,  "Name": lineSplit[4],"Alcohol": lineSplit[11], "Smoking Area": lineSplit[12], "Dress Code": lineSplit[13], "Price": lineSplit[15], "URL": lineSplit[16], "Sun;": None, "Sat;": None, "Mon;Tue;Wed;Thu;Fri;": None, "Payment Accepted": None, "Cuisine": None, "Parking": None}
+			self.restaurants[int(lineSplit[0])] = {"Location": location,  "Name": lineSplit[4],"Alcohol": lineSplit[11], "Smoking Area": lineSplit[12], "Dress Code": lineSplit[13], "Price": lineSplit[15], "URL": lineSplit[16], "Sun;": None, "Sat;": None, "Mon;Tue;Wed;Thu;Fri;": None, "Payment Accepted": None, "Cuisine": None, "Parking": None}
 		myfile.close()
 		myfile = open("data/restaurantPaymentAccepted.csv")
 		firstLine = myfile.readline()
 		payment = ""
-		restaurant = ""
+		restaurant = -1
 		restaurants = self.get_restaurants()
 		for line in myfile: 
 			lineSplit = line.split(",")
-			if lineSplit[0] in restaurants: 	
-				if lineSplit[0] == restaurant: 
+			ridTemp = int(lineSplit[0])
+			if ridTemp in restaurants: 	
+				if ridTemp == restaurant: 
 					payment = payment + "|" + lineSplit[1].rstrip()
 				else:
-					restaurant = lineSplit[0]
+					restaurant = ridTemp
 					payment = lineSplit[1].rstrip()
 				self.restaurants[restaurant]["Payment Accepted"] = payment 
 		myfile.close()
 		myfile = open("data/restaurantCuisine.csv")
 		firstLine = myfile.readline()
-		restaurant = ""
+		restaurant = -1
 		cuisine = ""
 		for line in myfile:
 			lineSplit = line.split(",")
-			if lineSplit[0] in restaurants:
-				if lineSplit[0] == restaurant:	
+			ridTemp = int(lineSplit[0])
+			if ridTemp in restaurants:
+				if ridTemp  == restaurant:	
 					cuisine = cuisine + "|" + lineSplit[1].rstrip()
 				else: 
-					restaurant = lineSplit[0]
+					restaurant = ridTemp
 					cuisine = lineSplit[1].rstrip()
 				self.restaurants[restaurant]["Cuisine"] = cuisine
 		myfile.close()
 		myfile = open("data/restaurantParking.csv")
 		firstLine =  myfile.readline()
-		restaurant = ""
+		restaurant = -1
 		parking = ""
 		for line in myfile: 
 			lineSplit = line.split(",")
-			if lineSplit[0] in restaurants:
-				if lineSplit[0] == restaurant: 
+			ridTemp = int(lineSplit[0])
+			if ridTemp in restaurants:
+				if ridTemp == restaurant: 
 					parking = parking +"|"+ lineSplit[1].rstrip()
 				else: 	
-					restaurant = lineSplit[0]
+					restaurant = ridTemp
 					parking = lineSplit[1].rstrip()
 				self.restaurants[restaurant]["Parking"] = parking
 		myfile.close()
@@ -147,11 +152,11 @@ class _restaurant_database:
 		#if multiple times in an entyr, use first time given 
 		for line in myfile: 
 			lineSplit = line.split(",")
-			if lineSplit[0] in restaurants:
+			if int(lineSplit[0]) in restaurants:
 				time = lineSplit[1]
 				if ";" in time: 
 					time = lineSplit[1].split(";")[0]
-				self.restaurants[lineSplit[0]][lineSplit[2].rstrip()] = time
+				self.restaurants[int(lineSplit[0])][lineSplit[2].rstrip()] = time
 		myfile.close()
 #returns a list of keys of restaurants
 	def get_restaurants(self):
@@ -159,7 +164,7 @@ class _restaurant_database:
 		
 #returns an array of a specific restaurant 
 	def get_restaurant(self, rid):
-		rid = str(rid)
+		rid = int(rid)
 		if rid in self.get_restaurants():
 			restaurantList  = [list(self.restaurants[rid]["Location"].values()), self.restaurants[rid]["Name"], self.restaurants[rid]["Alcohol"], self.restaurants[rid]["Smoking Area"], self.restaurants[rid]["Dress Code"], self.restaurants[rid]["Price"], self.restaurants[rid]["URL"], self.restaurants[rid]["Payment Accepted"], self.restaurants[rid]["Cuisine"], self.restaurants[rid]["Parking"], self.restaurants[rid]["Sun;"], self.restaurants[rid]["Sat;"], self.restaurants[rid]["Mon;Tue;Wed;Thu;Fri;"]]
 			return restaurantList
@@ -168,7 +173,7 @@ class _restaurant_database:
 						
 #sets a restaurant to input given which is a restaurant and a given id 
 	def set_restaurant(self, rid, restaurant):
-		rid = str(rid)
+		rid = int(rid)
 		if rid in self.get_restaurants(): 
 			self.restaurants[rid]["Location"]["Latitude"] = restaurant[0][0]
 			self.restaurants[rid]["Location"]["Longitude"] = restaurant[0][1]
@@ -195,8 +200,8 @@ class _restaurant_database:
 			self.restaurants[rid] = restDict
 #delete a given restaurant
 	def delete_restaurant(self, rid):
-		if str(rid) in self.get_restaurants(): 
-			del self.restaurants[str(rid)]
+		if int(rid) in self.get_restaurants(): 
+			del self.restaurants[int(rid)]
 
 	def load_ratings(self):
 		self.ratings.clear()
@@ -204,8 +209,8 @@ class _restaurant_database:
 		firstLine = f.readline()
 		for line in f:
 			info = line.rstrip().split(",")
-			uid = info[0]
-			rid = info[1]
+			uid = int(info[0][1:])
+			rid = int(info[1])
 			rating = float(info[2])
 			foodrating = float(info[3])
 			servrating = float(info[4])
@@ -225,6 +230,7 @@ class _restaurant_database:
 	def get_rating(self, rid):
 		total = 0
 		numRatings = 0
+		rid = int(rid)
 		if rid in self.ratings:
 			for uid in self.ratings[rid]:
 				rating = self.ratings[rid][uid][0]
@@ -239,6 +245,7 @@ class _restaurant_database:
 	def get_foodrating(self, rid):
 		total = 0
 		numRatings = 0
+		rid = int(rid)
 		if rid in self.ratings:
 			for uid in self.ratings[rid]:
 				rating = self.ratings[rid][uid][1]
@@ -253,6 +260,7 @@ class _restaurant_database:
 	def get_servrating(self, rid):
 		total = 0
 		numRatings = 0
+		rid = int(rid)
 		if rid in self.ratings:
 			for uid in self.ratings[rid]:
 				rating = self.ratings[rid][uid][2]
@@ -269,7 +277,7 @@ class _restaurant_database:
 	def set_user_restaurant_ratings(self, uid, rid, ratings):
 		#if rid not in self.ratings:
 			#self.ratings[rid] = {}
-		self.ratings[rid][uid] = ratings
+		self.ratings[int(rid)][int(uid)] = ratings
 
 	def filter_by_price(self, pricepoint):
 		matches = []
