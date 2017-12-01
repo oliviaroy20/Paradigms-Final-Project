@@ -70,7 +70,7 @@ class _restaurant_database:
 			self.users[uid]["Smoker"] = user[0]
 			self.users[uid]["Drink Level"] = user[1]
 			self.users[uid]["Ambience"] = user[2]
-
+			self.users[uid]["Transport"] = user[3]
 			self.users[uid]["Budget"] = user[4]
 			self.users[uid]["Cuisine"] = user[5]
 			self.users[uid]["Payment"] = user[6]
@@ -226,50 +226,29 @@ class _restaurant_database:
 		f.close()
 		#print(self.ratings)
 		
-# return the average overall rating of a restaurant
+# return the average overall ratings of a restaurant
 	def get_rating(self, rid):
 		total = 0
+		ftotal = 0
+		stotal = 0
 		numRatings = 0
 		rid = int(rid)
 		if rid in self.ratings:
 			for uid in self.ratings[rid]:
 				rating = self.ratings[rid][uid][0]
+				frating = self.ratings[rid][uid][1]
+				srating = self.ratings[rid][uid][2]
 				numRatings = numRatings + 1
 				total = float(total + rating)
+				ftotal = float(ftotal + frating)
+				stotal = float(stotal + srating)
 			average = total / float(numRatings)
-			return average
+			faverage = ftotal / float(numRatings)
+			saverage = stotal / float(numRatings)
+			return [average, faverage, saverage]
 		else:
 			return 0
-
-# return the average food rating of a restaurant
-	def get_foodrating(self, rid):
-		total = 0
-		numRatings = 0
-		rid = int(rid)
-		if rid in self.ratings:
-			for uid in self.ratings[rid]:
-				rating = self.ratings[rid][uid][1]
-				numRatings = numRatings + 1
-				total = float(total + rating)
-			average = total / numRatings
-			return average
-		else:
-			return 0
-
-# return the average service rating of a restaurant
-	def get_servrating(self, rid):
-		total = 0
-		numRatings = 0
-		rid = int(rid)
-		if rid in self.ratings:
-			for uid in self.ratings[rid]:
-				rating = self.ratings[rid][uid][2]
-				numRatings = numRatings + 1
-				total = float(total + rating)
-			average = total / numRatings
-			return average
-		else:
-			return 0
+	
 
 # if user exists, allow them to add or change a rating for a given rid
 # given uid, rid, and a list containing overall rating, service rating,
@@ -279,6 +258,41 @@ class _restaurant_database:
 			#self.ratings[rid] = {}
 		self.ratings[int(rid)][int(uid)] = ratings
 
+
+	def filter_restaurants(self, pricepoint, cuisinetype, dresscode, paymenttype):
+		matches = self.restaurants
+		temp = dict(matches)
+		if pricepoint != None:
+			for rid in matches:
+				if matches[rid]["Price"] != pricepoint and int(rid) in temp:
+					del temp[int(rid)]
+			matches = dict(temp)
+		if cuisinetype != None:
+			for rid in matches:
+				cuisineString = matches[rid]["Cuisine"]
+				if cuisineString != None:
+					cuisines = cuisineString.split("|")
+					for cuisine in cuisines:
+						if cuisine != cuisinetype and int(rid) in temp:
+							del temp[int(rid)]
+			matches = dict(temp)
+		if dresscode != None:
+			for rid in matches:
+				if matches[rid]["Dress Code"] != dresscode and int(rid) in temp:
+					del temp[int(rid)]
+			matches = temp
+		if paymenttype != None:
+			for rid in matches:
+				paymentString = matches[rid]["Payment Accepted"]
+				if paymentString != None:
+					payments = paymentString.split("|")
+					for payment in payments:
+						if payment != paymenttype and int(rid) in temp:
+							del temp[int(rid)]
+			matches = temp
+
+		return matches
+	'''
 	def filter_by_price(self, pricepoint):
 		matches = []
 		for rid in self.restaurants:
@@ -314,3 +328,4 @@ class _restaurant_database:
 					if payment == paymenttype:
 						matches.append(rid)
 		return matches
+	'''

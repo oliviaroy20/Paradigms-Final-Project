@@ -86,24 +86,15 @@ class TestRestaurantDatabase(unittest.TestCase):
 	def test_get_rating(self):
 		self.reset_data()
 		rating = self.rdb.get_rating("132825")
-		self.assertEquals(rating, 1.28125)
-
-	def test_get_foodrating(self):
-		self.reset_data()
-		rating = self.rdb.get_foodrating("132825")
-		self.assertEquals(rating, 1.34375)
-
-	def test_get_servrating(self):
-		self.reset_data()
-		rating = self.rdb.get_servrating("132825")
-		self.assertEquals(rating, 0.9375)
-
+		self.assertEquals(rating, [1.28125, 1.34375, 0.9375])
+	
 	def test_set_user_restaurant_ratings_change(self):
 		#test for changing existing user rating
 		self.reset_data()
 		#print(self.rdb.get_rating("132825"))
 		self.rdb.set_user_restaurant_ratings(1002, 132825, [1, 1, 1])
-		newRating = self.rdb.get_rating(132825)
+		newRatings = self.rdb.get_rating(132825)
+		newRating = newRatings[0]
 		#print(newRating)
 		self.assertEquals(newRating, 1.25)
 
@@ -111,9 +102,16 @@ class TestRestaurantDatabase(unittest.TestCase):
 		#test for adding ratings for an existing user
 		self.reset_data()
 		self.rdb.set_user_restaurant_ratings(1096, "132825", [1, 1, 1])
-		newRating = self.rdb.get_rating("132825")
+		newRatings = self.rdb.get_rating("132825")
+		newRating = newRatings[0]
 		self.assertEquals(newRating, 1.2727272727272727)
 	
+	def test_filter_restaurants(self):
+		self.reset_data()
+		matches = self.rdb.filter_restaurants("low", "Bar", "casual", "cash")
+		result = self.rdb.get_restaurant("132921")
+		self.assertEquals(matches, result)
+	'''
 
 	def test_filter_by_price(self):
 		self.reset_data()
@@ -138,6 +136,8 @@ class TestRestaurantDatabase(unittest.TestCase):
 		self.reset_data()
 		matches = self.rdb.filter_by_payment("cash")
 		self.assertEquals(len(matches), 113)
+
+	'''
 
 if __name__ == "__main__":
 	unittest.main() 
