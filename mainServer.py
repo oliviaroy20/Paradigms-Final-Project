@@ -67,6 +67,14 @@ def start_service():
 	dispatcher.connect('user_post', '/users/',
 		controller = userController,
 		action = 'POST', conditions = dict(method = ['POST']))
+	#DELETE all users 
+	dispatcher.connect('users_delete', '/users/',
+		controller = userController, 
+		action = 'DELETE', conditions = dict(method= ['DELETE']))
+	#delete a specific user
+	dispatcher.connect('user_delete_id', '/users/:user_id',
+		controller = userController, 
+		action = 'DELETE_ID', conditions = dict(method = ['DELETE']))
 
 
 	#configure the server to user student04 and port 51067

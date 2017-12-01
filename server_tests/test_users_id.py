@@ -57,7 +57,20 @@ class TestUsers(unittest.TestCase):
 		self.assertEqual(resp['Cuisine'] , u['Cuisine'])
 
 
-
+	def test_users_delete(self):
+		self.reset_data()
+		user_id =1002 
+		u = {}
+		req = requests.delete(self.USERS_URL + str(user_id), data = json.dumps(u))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['result'], 'success')
+		
+		req = requests.get(self.USERS_URL + str(user_id))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['result'], 'error') 
+		self.assertEqual(resp['message'], str(user_id))
 
 
 if __name__ =='__main__':

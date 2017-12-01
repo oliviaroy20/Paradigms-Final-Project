@@ -69,9 +69,29 @@ class UserController(object):
 			output['message'] = str(ex)
 		return json.dumps(output)
 
-		
-
-
+	#delete all users
+	def DELETE(self):
+		#define output
+		output = {'result': 'success'}
+		#try to delete all users
+		try: 
+			self.rdb.users = dict()
+		except Exception as ex:
+			output['result'] =  'error'
+			outpu['message'] = str(ex)
+		return json.dumps(output)		
+	#delete a specifc user
+	def DELETE_ID(self, user_id):
+		#define output
+		output = {'result': 'success'}	
+		#make user id an int
+		user_id = int(user_id)
+		try:
+			self.rdb.delete_user(user_id)
+		except Exception as ex:
+			output['result'] = 'error'	
+			output['message'] =  str(ex)
+		return json.dumps(output)
 
 
 

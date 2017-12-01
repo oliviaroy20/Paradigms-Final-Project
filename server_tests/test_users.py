@@ -57,5 +57,21 @@ class TestUsers(unittest.TestCase):
 		self.assertEqual(resp['Smoker'], u['Smoker'])
 		self.assertEqual(resp['Cuisine'], u['Cuisine'])
 
+	def test_users_delete(self):
+		self.reset_data()
+		u = {}
+		req = requests.delete(self.USERS_URL, data = json.dumps(u))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp= json.loads(req.content.decode())
+		self.assertEqual(resp['result'] ,'success')
+		
+		req = requests.get(self.USERS_URL)
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		users = resp['users']
+		self.assertFalse(users)
+
+
+
 if __name__ == '__main__':
 	unittest.main() 
