@@ -269,32 +269,32 @@ class _restaurant_database:
 		
 		matches = self.restaurants
 		temp = dict(matches)
-		if pricepoint != None:
+		if self.filters["Price"] != None:
 			for rid in matches:
-				if matches[rid]["Price"] != filters["Price"] and int(rid) in temp:
+				if matches[rid]["Price"] != self.filters["Price"] and int(rid) in temp:
 					del temp[int(rid)]
 			matches = dict(temp)
-		if cuisinetype != None:
+		if self.filters["Cuisine"] != None:
 			for rid in matches:
 				cuisineString = matches[rid]["Cuisine"] 
 				if cuisineString != None:
 					cuisines = cuisineString.split("|")
 					for cuisine in cuisines:
-						if cuisine != filters["Cuisine"] and int(rid) in temp:
+						if cuisine != self.filters["Cuisine"] and int(rid) in temp:
 							del temp[int(rid)]
 			matches = dict(temp)
-		if dresscode != None:
+		if self.filters["Dress Code"] != None:
 			for rid in matches:
-				if matches[rid]["Dress Code"] != filters["Dress Code"] and int(rid) in temp:
+				if matches[rid]["Dress Code"] != self.filters["Dress Code"] and int(rid) in temp:
 					del temp[int(rid)]
 			matches = temp
-		if paymenttype != None:
+		if self.filters["Payment Accepted"] != None:
 			for rid in matches:
 				paymentString = matches[rid]["Payment Accepted"]
 				if paymentString != None:
 					payments = paymentString.split("|")
 					for payment in payments:
-						if payment != filters["Payment Accepted"] and int(rid) in temp:
+						if payment != self.filters["Payment Accepted"] and int(rid) in temp:
 							del temp[int(rid)]
 			matches = temp
 
