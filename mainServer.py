@@ -2,7 +2,8 @@ import cherrypy
 from _restaurant_database import _restaurant_database
 from reset import ResetController
 from restaurants import RestaurantController
-from users import UserController 
+from users import UserController
+from ratings import RatingsController  
 def start_service(): 
 	#the dispatcher tells what controller and what method should handle a request
 	dispatcher = cherrypy.dispatch.RoutesDispatcher()
@@ -14,7 +15,7 @@ def start_service():
 	resetController = ResetController(rdb)
 	restaurantController = RestaurantController(rdb)
 	userController = UserController(rdb)
-
+	ratingsController= RatingsController(rdb)
 #tell the dispatcher to use the reset controller for /reset/ 
 	#PUT reset all restaurants
 	dispatcher.connect('reset_put', '/reset/',
@@ -75,7 +76,11 @@ def start_service():
 	dispatcher.connect('user_delete_id', '/users/:user_id',
 		controller = userController, 
 		action = 'DELETE_ID', conditions = dict(method = ['DELETE']))
-
+#dispatcher connect to /ratings/ to ratingsController 
+	#GET the ratings for a specific restaurant 
+	dispatcher.connect('ratings_get_id', '/ratings/:restaurant_id', 
+		controller = ratingsController, 
+		action = 'GET_ID', conditions = dict(method= ['GET'])) 
 
 	#configure the server to user student04 and port 51067
 	#configure server so the dispatcher is the one defined at top of method
