@@ -1,5 +1,5 @@
 # Paradigms-Final-Project
-The API is found in _restaurant_database.py and can be imported as helper functions when creating a server. It has get and set functions for restaurants, users, and ratings. 
+The API is found in _restaurant_database.py and can be imported as helper functions when creating a server. It has get and set functions for restaurants, users, and ratings and a set function for filters. 
 
 Restaurants have the following information: 
 Latitude, Longitude, Address, City, State, Country, Zipcode,
@@ -10,6 +10,6 @@ Cuisine they like, how they can pay, drinking status, smoking status, ambiance p
 
 Users can rate restaurants overall, by food, and by service. 
 
-Ultimately the API will be able to give recommendations based price, ammendities, and payment type. 
+Ultimately the API will be able to give recommendations based price, amenities, and payment type. 
 Additionally, users will be able to rate the restaurant.  They will be able to see the location of the restaurants on a map.
 
