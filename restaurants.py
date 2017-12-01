@@ -1,8 +1,8 @@
 import cherrypy
 import re, json
 from _restaurant_database import _restaurant_database
-class RestaurantController(Object):
-	def __init__(self, rdb):
+class RestaurantController(object):
+	def __init__(self, rdb = None):
 		#have own instance of the restaurant database API so that it can access the current information 
 		self.rdb = rdb
 	
@@ -14,9 +14,9 @@ class RestaurantController(Object):
 		try:
 			output['restaurants'] = []
 			#for each restaurant in the database,use the get by id to get information about every restaurant 
-			for key, value in self.rdb.restaurants.items():
-				restaurant = self.GET_ID(key)
-				output['restaurant'].append(json.load(restaurant))
+		
+			for key in self.rdb.get_restaurants():
+				output['restaurants'].append(json.loads(self.GET_ID(key)))
 		except Exception as ex: 
 			output['result'] = 'error'
 			output['message'] = str(ex)
@@ -28,13 +28,15 @@ class RestaurantController(Object):
 		#define output
 		output = {'result': 'success'}
 		#make sure id is a string
-		restaurant_id = str(restaurant_id)
-	
+		restaurant_id = int(restaurant_id)
+		print (restaurant_id)
 		#try to get the data for restaurant and add it to the output
 		try:
 			restaurant = self.rdb.restaurants[restaurant_id]
+			print("Restaurant " , restaurant)
 			output.update(restaurant)
 			output.update({'id': restaurant_id})
+			print ("output ", output)
 		except Exception as ex:
 			output['result'] = 'error'
 			output['message'] = str(ex)
@@ -47,8 +49,8 @@ class RestaurantController(Object):
 		output = {'result': 'success'}
 		#get the input and put in correct format
 		data = cherrypy.request.body.read().decode()
-		try: 
-			data = json.loads(data)
+#		try: 
+#			data = json.loads(data)
 		 #change ids to numbers not strings 
 			
 
