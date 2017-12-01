@@ -3,6 +3,7 @@ class _restaurant_database:
 		self.users = dict()
 		self.restaurants = dict()
 		self.ratings = dict()
+		self.filters = {"Price": None, "Cuisine": None, "Dress Code": None, "Payment Accepted": None}
 	
 	def load_users(self): 
 		self.users.clear()
@@ -258,27 +259,33 @@ class _restaurant_database:
 			#self.ratings[rid] = {}
 		self.ratings[int(rid)][int(uid)] = ratings
 
+	def set_filters(self, pricepoint, cuisinetype, dresscode, paymenttype):
+		self.filters["Price"] = pricepoint
+		self.filters["Cuisine"] = cuisinetype
+		self.filters["Dress Code"] = dresscode
+		self.filters["Payment Accepted"] = paymenttype
 
-	def filter_restaurants(self, pricepoint, cuisinetype, dresscode, paymenttype):
+	def filter_restaurants(self):
+		
 		matches = self.restaurants
 		temp = dict(matches)
 		if pricepoint != None:
 			for rid in matches:
-				if matches[rid]["Price"] != pricepoint and int(rid) in temp:
+				if matches[rid]["Price"] != filters["Price"] and int(rid) in temp:
 					del temp[int(rid)]
 			matches = dict(temp)
 		if cuisinetype != None:
 			for rid in matches:
-				cuisineString = matches[rid]["Cuisine"]
+				cuisineString = matches[rid]["Cuisine"] 
 				if cuisineString != None:
 					cuisines = cuisineString.split("|")
 					for cuisine in cuisines:
-						if cuisine != cuisinetype and int(rid) in temp:
+						if cuisine != filters["Cuisine"] and int(rid) in temp:
 							del temp[int(rid)]
 			matches = dict(temp)
 		if dresscode != None:
 			for rid in matches:
-				if matches[rid]["Dress Code"] != dresscode and int(rid) in temp:
+				if matches[rid]["Dress Code"] != filters["Dress Code"] and int(rid) in temp:
 					del temp[int(rid)]
 			matches = temp
 		if paymenttype != None:
@@ -287,7 +294,7 @@ class _restaurant_database:
 				if paymentString != None:
 					payments = paymentString.split("|")
 					for payment in payments:
-						if payment != paymenttype and int(rid) in temp:
+						if payment != filters["Payment Accepted"] and int(rid) in temp:
 							del temp[int(rid)]
 			matches = temp
 
