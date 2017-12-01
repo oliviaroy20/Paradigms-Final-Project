@@ -81,7 +81,10 @@ def start_service():
 	dispatcher.connect('ratings_get_id', '/ratings/:restaurant_id', 
 		controller = ratingsController, 
 		action = 'GET_ID', conditions = dict(method= ['GET'])) 
-
+	#PUT new rating 
+	dispatcher.connect('ratings_put', '/ratings/:restaurant_id', 
+		controller = ratingsController, 
+		action = 'PUT', conditions = dict(method = ['PUT']))
 	#configure the server to user student04 and port 51067
 	#configure server so the dispatcher is the one defined at top of method
 	conf = {'global': {

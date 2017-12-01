@@ -19,3 +19,25 @@ class RatingsController(object):
 			output['result'] = 'error'
 			output['message'] = str(ex)
 		return json.dumps(output)
+
+	def PUT(self, restaurant_id):
+		#set up output
+		output = {'result': 'success'}
+		#make id an int
+		print("hello")
+		restaurant_id = int(restaurant_id)
+		#get data from body
+		print("hi")
+		data = cherrypy.request.body.read().decode()
+		print("bye")
+		try:
+			print(data)
+			data= json.loads(data)
+			print("uid ", data['uid'])
+			print ("rating ", data['rating'])
+			self.rdb.ratings[restaurant_id][int(data['uid'])] =  data['rating']
+		except Exception as ex:
+			output['result'] = 'error'
+			output['message'] = str(ex)
+
+		return json.dumps(output)
