@@ -30,5 +30,47 @@ class TestRestaurantsId(unittest.TestCase):
 		self.assertEqual(resp['Dress Code'], 'informal')
 		
 
-if __name__ == "__main__":
+	def test_movies_put(self):
+		self.reset_data()
+		restaurant_id = 132825
+		req = requests.get(self.RESTAURANTS_URL + str(restaurant_id)
+		self.assertTrue(self.is_json(req.content.decode('utf-8')))
+		resp= json.loads(req.content.decode('utf-8'))
+		self.assertEqual(resp['result'],'success')
+		self.assertEqual(resp['Name'], 'puesto de tacos')
+		
+		r = {}
+		r['Location'] = {}
+		r['Location']['Latitude'] = '123'
+		r['Location']['Longitude'] = '456'
+		r['Location']['Address'] ='main street'
+		r['Location']['City'] = 'south bend'
+		r['Location']['State'] = 'indiana'
+		r['Location']['Zipcode']= '00000'
+		r['Name'] = 'restaurant'
+		r['Alcohol'] = 'Wine-Beer'
+		r['Smoking Area'] = 'none'
+		r['Dress Code'] = 'informal'
+		r['Price'] = 'low'
+		r['URL'] = 'restaurant.com'
+		r['Sun;'] = '12:00 - 20:00'
+		r['Sat;'] = '12:00 - 20:00'
+		r['Mon;Tue;Wed;Thu;Fri;'] = '12:00 - 20:00'
+		r['Payment Accepted'] = 'cash'
+		r['Cuisine'] = 'Mexican'
+		r['Parking'] = 'valet'
+		req = requests.put(self.RESTAURANTS_URL + str(restaurant_id), data = json.dumps(m))
+		self.assertTrue(self.is_json(req.content.decode('utf-8')))
+		resp = json.loads(req.content.decode('utf-8'))
+		self.assertEqual(resp['result'] , 'success')
+
+		req = requests.get(self.RESTAURANTS_URL + str(restaurant_id))
+		self.assertTrue(self.is_json(req.content.decode('utf-8'))
+		resp = json.loads(req.content.decode('utf-8'))
+		self.assertEqual(resp['Name'], r['Name'])
+		self.assertEqual(resp['Location']['Longitude'], r['Location']['Longitude'])
+
+	
+
+if __name__ =[ "__main__":
 	unittest.main() 

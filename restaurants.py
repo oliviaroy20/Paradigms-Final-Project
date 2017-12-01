@@ -49,9 +49,37 @@ class RestaurantController(object):
 		output = {'result': 'success'}
 		#get the input and put in correct format
 		data = cherrypy.request.body.read().decode()
-#		try: 
-#			data = json.loads(data)
-		 #change ids to numbers not strings 
+		try: 
+			data = json.loads(data)
+			#find the maximum key to create next key for new restaurant 
+			maxKey =0
+			for key in self.rdb.get_restaurants():
+				if (int(key)>maxKey):
+					maxKey = key
+			self.rdb.restaurants[int(maxKey)+1] = data
+			output['id'] = int(maxKey) +1
+		except Exception as ex: 
+			output['result'] = 'error' 
+			output['message'] = str(ex)
+		return json.dumps(output) 
 			
+	#change a restauranct given an id
+	def PUT(self, restaurant_id):
+		#set up output
+		output = {'result': 'success'}
+		#make sure id is an int
+		restaurantd_id = int(restaurant_id)
+		#get data
+		data = cherrypy.request.body.read().decode()
+		try: 
+			data = json.loads(data)	
+			self.rdb.restaurant['restaurant_id'] = data
+		except Exception as ex:
+			output['result'] = 'error'
+			output['message'] = str(ex)
+		return json.dumps(output)
+
+
+
 
 

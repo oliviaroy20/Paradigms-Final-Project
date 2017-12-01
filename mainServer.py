@@ -33,8 +33,16 @@ def start_service():
 		controller = restaurantController, 
 		action = 'GET_ID', conditions = dict(method= ['GET'])) 
 
-
+	#POST new restaurant
+	dispatcher.connect('restaurants_post', '/restaurants/',
+		controller = restaurantController, 
+		action = 'POST', conditions= dict(method = ['POST']))
+	#PUT change restaurant
+	dispatcher.connect('restaurants_put'), '/restaurants/:restaurant_id',
+		controller = restaurantController, 
+		action = 'PUT', conditions = dict(method = ['PUT']))
 	
+		
 	#configure the server to user student04 and port 51067
 	#configure server so the dispatcher is the one defined at top of method
 	conf = {'global': {
