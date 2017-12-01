@@ -68,12 +68,12 @@ class RestaurantController(object):
 		#set up output
 		output = {'result': 'success'}
 		#make sure id is an int
-		restaurantd_id = int(restaurant_id)
+		restaurant_id = int(restaurant_id)
 		#get data
 		data = cherrypy.request.body.read().decode()
 		try: 
 			data = json.loads(data)	
-			self.rdb.restaurant['restaurant_id'] = data
+			self.rdb.restaurants[restaurant_id] = data
 		except Exception as ex:
 			output['result'] = 'error'
 			output['message'] = str(ex)

@@ -38,7 +38,7 @@ def start_service():
 		controller = restaurantController, 
 		action = 'POST', conditions= dict(method = ['POST']))
 	#PUT change restaurant
-	dispatcher.connect('restaurants_put'), '/restaurants/:restaurant_id',
+	dispatcher.connect('restaurants_put', '/restaurants/:restaurant_id',
 		controller = restaurantController, 
 		action = 'PUT', conditions = dict(method = ['PUT']))
 	

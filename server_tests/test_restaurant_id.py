@@ -33,7 +33,7 @@ class TestRestaurantsId(unittest.TestCase):
 	def test_movies_put(self):
 		self.reset_data()
 		restaurant_id = 132825
-		req = requests.get(self.RESTAURANTS_URL + str(restaurant_id)
+		req = requests.get(self.RESTAURANTS_URL + str(restaurant_id))
 		self.assertTrue(self.is_json(req.content.decode('utf-8')))
 		resp= json.loads(req.content.decode('utf-8'))
 		self.assertEqual(resp['result'],'success')
@@ -59,18 +59,18 @@ class TestRestaurantsId(unittest.TestCase):
 		r['Payment Accepted'] = 'cash'
 		r['Cuisine'] = 'Mexican'
 		r['Parking'] = 'valet'
-		req = requests.put(self.RESTAURANTS_URL + str(restaurant_id), data = json.dumps(m))
+		req = requests.put(self.RESTAURANTS_URL + str(restaurant_id), data = json.dumps(r))
 		self.assertTrue(self.is_json(req.content.decode('utf-8')))
 		resp = json.loads(req.content.decode('utf-8'))
 		self.assertEqual(resp['result'] , 'success')
 
 		req = requests.get(self.RESTAURANTS_URL + str(restaurant_id))
-		self.assertTrue(self.is_json(req.content.decode('utf-8'))
+		self.assertTrue(self.is_json(req.content.decode('utf-8')))
 		resp = json.loads(req.content.decode('utf-8'))
 		self.assertEqual(resp['Name'], r['Name'])
 		self.assertEqual(resp['Location']['Longitude'], r['Location']['Longitude'])
 
 	
 
-if __name__ =[ "__main__":
+if __name__ == "__main__":
 	unittest.main() 
