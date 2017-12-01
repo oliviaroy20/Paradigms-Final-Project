@@ -36,8 +36,26 @@ class TestUsers(unittest.TestCase):
 		self.assertEqual(testuser['Smoker'], 'false')
 		self.assertEqual(testuser['Budget'], 'low')
 
-
-
+	def test_users_post(self):
+		self.reset_data()
+		u = {}
+		u['Smoker'] = 'false'
+		u['Drink Level']= 'social drinker'
+		u['Ambience'] = 'informal'
+		u['Transport'] = 'public'
+		u['Budget'] = 'low'
+		u['Cuisine'] = 'American'
+		u['Payment'] = 'cash' 
+		req = requests.post(self.USERS_URL, data = json.dumps(u))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['id'], 1139)
+		
+		req= requests.get(self.USERS_URL + str(resp['id']))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['Smoker'], u['Smoker'])
+		self.assertEqual(resp['Cuisine'], u['Cuisine'])
 
 if __name__ == '__main__':
 	unittest.main() 

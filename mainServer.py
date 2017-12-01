@@ -59,6 +59,15 @@ def start_service():
 	dispatcher.connect('users_get_id', '/users/:user_id',
 		controller = userController, 
 		action = 'GET_ID', conditions = dict(method=['GET']))
+	#PUT change user
+	dispatcher.connect('users_put', '/users/:user_id',
+		controller = userController,
+		action = 'PUT', conditions= dict(method = ['PUT']))
+	#POST add new user
+	dispatcher.connect('user_post', '/users/',
+		controller = userController,
+		action = 'POST', conditions = dict(method = ['POST']))
+
 
 	#configure the server to user student04 and port 51067
 	#configure server so the dispatcher is the one defined at top of method

@@ -70,7 +70,7 @@ class _restaurant_database:
 			self.users[uid]["Smoker"] = user[0]
 			self.users[uid]["Drink Level"] = user[1]
 			self.users[uid]["Ambience"] = user[2]
-			self.users[uid]["Transport"] = user[3]
+
 			self.users[uid]["Budget"] = user[4]
 			self.users[uid]["Cuisine"] = user[5]
 			self.users[uid]["Payment"] = user[6]

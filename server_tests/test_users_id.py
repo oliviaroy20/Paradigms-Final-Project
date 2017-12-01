@@ -28,6 +28,36 @@ class TestUsers(unittest.TestCase):
 		self.assertEqual(resp['Smoker'], 'false')
 		self.assertEqual(resp['Budget'], 'low')
 
+	def test_users_put(self):
+		self.reset_data()
+		user_id = 1002
+		req =requests.get(self.USERS_URL + str(user_id))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['Smoker'], 'false')
+		self.assertEqual(resp['Budget'], 'low')
+		u = {}
+		u['Smoker'] = 'false'
+		u['Drink Level']= 'social drinker'
+		u['Ambience'] = 'informal'
+		u['Transport'] = 'public'
+		u['Budget'] = 'low'
+		u['Cuisine'] = 'American'
+		u['Payment'] = 'cash'
+
+		req = requests.put(self.USERS_URL + str(user_id), data = json.dumps(u))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['result'], 'success')
+
+		req = requests.get(self.USERS_URL + str(user_id))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['Smoker'], u['Smoker'])
+		self.assertEqual(resp['Cuisine'] , u['Cuisine'])
+
+
+
 
 
 if __name__ =='__main__':

@@ -33,3 +33,47 @@ class UserController(object):
 			output['result'] = 'error'
 			output['message'] = str(ex)
 		return json.dumps(output)
+
+	#create a new user
+	def POST(self):
+		#define output
+		output = {'result': 'success'}
+		#get data 
+		data = cherrypy.request.body.read().decode()
+		try:
+			data = json.loads(data)
+			maxKey =0
+			for key in self.rdb.get_users():
+				if int(key) > maxKey:
+					maxKey = key
+			self.rdb.users[int(maxKey) +1] = data
+			output['id'] = int(maxKey) +1 
+		except Exception as ex: 
+			output['result'] = 'error'
+			output['message'] = str(ex)
+		return json.dumps(output) 
+
+	#change a user
+	def PUT(self, user_id):
+		#define output
+		output = {'result': 'success'}
+		#make sure id is an int
+		user_id = int(user_id)
+		#get data
+		data = cherrypy.request.body.read().decode()
+		try:
+			data = json.loads(data)
+			self.rdb.users[user_id] = data
+		except Exception as ex: 
+			output['result'] = 'error'
+			output['message'] = str(ex)
+		return json.dumps(output)
+
+		
+
+
+
+
+
+
+
