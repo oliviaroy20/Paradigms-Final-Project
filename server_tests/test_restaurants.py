@@ -68,7 +68,19 @@ class TestRestaurants(unittest.TestCase):
 		self.assertEqual(response['Cuisine'], r['Cuisine'])
 		self.assertEqual(response['Location']['Longitude'], r['Location']['Longitude'])
 	
-
+	def test_restauratant_delete(self):
+		self.reset_data()
+		r = {}
+		req = requests.delete(self.RESTAURANTS_URL, data = json.dumps(r))
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		self.assertEqual(resp['result'], 'success')
+		
+		req = requests.get(self.RESTAURANTS_URL)
+		self.assertTrue(self.is_json(req.content.decode()))
+		resp = json.loads(req.content.decode())
+		restaurants = resp['restaurants']
+		self.assertFalse(restaurants)
 
 
 

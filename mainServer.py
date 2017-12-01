@@ -41,7 +41,14 @@ def start_service():
 	dispatcher.connect('restaurants_put', '/restaurants/:restaurant_id',
 		controller = restaurantController, 
 		action = 'PUT', conditions = dict(method = ['PUT']))
-	
+	#DELETE all restaurants
+	dispatcher.connect('restaurants_delete_all', '/restaurants/', 
+		controller = restaurantController, 
+		action = 'DELETE', conditions = dict(method=['DELETE']))
+	#DELETE a specific restaurant
+	dispatcher.connect('restaurants_delete_id', '/restaurants/:restaurant_id',
+		controller = restaurantController, 
+		action = 'DELETE_ID', conditions = dict(method=['DELETE']))	
 		
 	#configure the server to user student04 and port 51067
 	#configure server so the dispatcher is the one defined at top of method

@@ -78,8 +78,28 @@ class RestaurantController(object):
 			output['result'] = 'error'
 			output['message'] = str(ex)
 		return json.dumps(output)
-
-
+	#delete all restaurants
+	def DELETE(self):
+		#define output
+		output = {'result' :'success'}
+		#clear all restaurants
+		try: 
+			self.rdb.restaurants = dict()
+		except Exception as ex:
+			output['result'] = 'error'
+			output['message'] = str(ex)
+		return json.dumps(output)
+	#delete a specific restaurant
+	def DELETE_ID(self, restaurant_id):
+		output = {'result' : 'success'}
+		restaurant_id = int(restaurant_id)
+		try: 
+			self.rdb.delete_restaurant(restaurant_id)
+		except Exception as ex: 
+			output['result'] = 'error' 
+			output['message'] = 'restaurant not found'
+		return json.dumps(output)
+		
 
 
 

@@ -70,7 +70,21 @@ class TestRestaurantsId(unittest.TestCase):
 		self.assertEqual(resp['Name'], r['Name'])
 		self.assertEqual(resp['Location']['Longitude'], r['Location']['Longitude'])
 
-	
+	def test_restaurants_delete(self):
+		self.reset_data()
+		restaurant_id = 132825
+		r = {}
+		req = requests.delete(self.RESTAURANTS_URL + str(restaurant_id), data = json.dumps(r))
+		self.assertTrue(self.is_json(req.content.decode('utf-8')))
+		resp = json.loads(req.content.decode('utf-8'))
+		self.assertEqual(resp['result'], 'success')
+		
+		req = requests.get(self.RESTAURANTS_URL + str(restaurant_id))
+		self.assertTrue(self.is_json(req.content.decode('utf-8')))
+		resp = json.loads(req.content.decode('utf-8'))
+		self.assertEqual(resp['result'], 'error')
+		self.assertEqual(resp['message'], str(restaurant_id))
+
 
 if __name__ == "__main__":
 	unittest.main() 
