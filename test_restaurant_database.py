@@ -13,6 +13,7 @@ class TestRestaurantDatabase(unittest.TestCase):
 		self.rdb.load_users()
 		self.rdb.load_restaurants()
 		self.rdb.load_ratings()
+		self.rdb.set_filters(None, None, None, None)
 
 	def test_get_user(self):
 		self.reset_data()
@@ -105,7 +106,13 @@ class TestRestaurantDatabase(unittest.TestCase):
 		newRatings = self.rdb.get_rating("132825")
 		newRating = newRatings[0]
 		self.assertEquals(newRating, 1.2727272727272727)
-	
+
+	def test_set_filters(self):
+		self.reset_data()
+		self.rdb.set_filters("low", "Bar", "casual", "cash")
+		result = {"Price":"low", "Cuisine":"Bar", "Dress Code":"casual", "Payment Accepted":"cash"}
+		self.assertEquals(self.rdb.filters, result)
+
 #	def test_filter_restaurants(self):
 #		self.reset_data()
 #		matches = self.rdb.filter_restaurants("low", "Bar", "casual", "cash")
