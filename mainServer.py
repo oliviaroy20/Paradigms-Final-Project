@@ -5,7 +5,12 @@ from restaurants import RestaurantController
 from users import UserController
 from ratings import RatingsController 
 from recommendations import RecController
+from options import OptionsController
 
+def CORS():
+	cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+	cherrypy.response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE"
+	cherrypy.response.header["Access-Control-Allow-Credentials"] = "*"
 def start_service(): 
 	#the dispatcher tells what controller and what method should handle a request
 	dispatcher = cherrypy.dispatch.RoutesDispatcher()
@@ -18,7 +23,33 @@ def start_service():
 	restaurantController = RestaurantController(rdb)
 	userController = UserController(rdb)
 	ratingsController= RatingsController(rdb)
-	recController = RecController(rdb)
+	recController = RecController(rdb)i
+	optionsController = OptionsController()
+#connect options for each resource 
+	dispatcher.connect('options_reset', '/reset/', 
+		controller = optionsController, 
+		action = 'OPTIONS', conditions= dict(method = ['OPTIONS']))
+	dispatcher.connect('options_reset_restaurant', '/reset/:restaurant_id',
+		controller = optionsController, 
+		action = 'OPTIONS', conditions = dict(method =['OPTIONS']))
+	dispatcher.connect('options_restaurants', '/restaurants/',
+		controller = optionsController,
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_rid', '/restaurants/:restaurant_id',
+		controller = optionsController,
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_users', '/users/',
+		controller = optionsController, 
+		action= 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_uid', '/users/:user_id',
+		controller = optionsController, 
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_ratings', '/ratings/:restaurant_id',
+		controller = optionsController,
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_recommendations', '/recommendations/',
+		controller = optionsController, 
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
 #tell the dispatcher to use the reset controller for /reset/ 
 	#PUT reset all restaurants
 	dispatcher.connect('reset_put', '/reset/',
@@ -104,11 +135,12 @@ def start_service():
 		'server.socket_host': 'student04.cse.nd.edu', 
 		'server.socket_port': 51067
 		},
-		'/': {'request.dispatch': dispatcher}
+		'/': {'request.dispatch': dispatcher, 'tools.CORS.on':True}
 		}
 	cherrypy.config.update(conf)
 	app = cherrypy.tree.mount(None, config= conf)
 	cherrypy.quickstart(app)
 
 if __name__ == '__main__':
+	cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
 	start_service()
