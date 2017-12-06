@@ -113,6 +113,11 @@ class TestRestaurantDatabase(unittest.TestCase):
 		result = {"Price":"low", "Cuisine":"Bar", "Dress Code":"casual", "Payment Accepted":"cash"}
 		self.assertEquals(self.rdb.filters, result)
 
+	def test_get_prices(self):
+		self.reset_data()
+		prices = self.rdb.get_prices()
+		self.assertEquals(prices, ["medium", "low", "high"])
+
 #	def test_filter_restaurants(self):
 #		self.reset_data()
 #		matches = self.rdb.filter_restaurants("low", "Bar", "casual", "cash")

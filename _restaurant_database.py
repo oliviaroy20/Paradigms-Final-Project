@@ -3,7 +3,7 @@ class _restaurant_database:
 		self.users = dict()
 		self.restaurants = dict()
 		self.ratings = dict()
-		self.filters = {"Price": None, "Cuisine": None, "Dress Code": None, "Payment Accepted": None}
+		self.filters = {"Price": "None", "Cuisine": "None", "Dress Code": "None", "Payment Accepted": "None"}
 	
 	def load_users(self): 
 		self.users.clear()
@@ -269,12 +269,12 @@ class _restaurant_database:
 		
 		matches = self.restaurants
 		temp = dict(matches)
-		if self.filters["Price"] != None:
+		if self.filters["Price"] != "None":
 			for rid in matches:
 				if matches[rid]["Price"] != self.filters["Price"] and int(rid) in temp:
 					del temp[int(rid)]
 			matches = dict(temp)
-		if self.filters["Cuisine"] != None:
+		if self.filters["Cuisine"] != "None":
 			for rid in matches:
 				cuisineString = matches[rid]["Cuisine"] 
 				if cuisineString != None:
@@ -283,12 +283,12 @@ class _restaurant_database:
 						if cuisine != self.filters["Cuisine"] and int(rid) in temp:
 							del temp[int(rid)]
 			matches = dict(temp)
-		if self.filters["Dress Code"] != None:
+		if self.filters["Dress Code"] != "None":
 			for rid in matches:
 				if matches[rid]["Dress Code"] != self.filters["Dress Code"] and int(rid) in temp:
 					del temp[int(rid)]
 			matches = temp
-		if self.filters["Payment Accepted"] != None:
+		if self.filters["Payment Accepted"] != "None":
 			for rid in matches:
 				paymentString = matches[rid]["Payment Accepted"]
 				if paymentString != None:
@@ -299,6 +299,36 @@ class _restaurant_database:
 			matches = temp
 
 		return matches
+
+	def get_prices(self):
+		prices = []
+		for rid in self.restaurants:
+			if self.restaurants[rid]["Price"] not in prices:
+				prices.append(self.restaurants[rid]["Price"])
+		return prices
+
+	def get_cuisines(self):
+		cuisines = []
+		for rid in self.restuarants:
+			if self.restaurants[rid]["Cuisine"] not in cuisines:
+				cuisines.append(self.restaurants[rid]["Cuisine"])
+		return cuisines
+
+	def get_dresscode(self):
+		dresscodes = []
+		for rid in self.restaurants:
+			if self.restaurants[rid]["Dress Code"] not in dresscodes:
+				dresscodes.append(self.restaurants[rid]["Dress Code"])
+		return dresscodes
+
+	def get_payments(self):
+		payments = []
+		for rid in self.restaurants:
+			if self.restaurants[rid]["Payment Accepted"] not in payments:
+				payments.append(self.restaurants[rid]["Payment Accepted"])
+		return payments
+
+
 	'''
 	def filter_by_price(self, pricepoint):
 		matches = []
