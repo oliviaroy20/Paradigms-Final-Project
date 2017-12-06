@@ -15,7 +15,10 @@ class _restaurant_database:
 				if s == "?": 
 					lineSplit[index] = None
 				index = index +1
-			self.users[int(lineSplit[0][1:])] = {"Smoker": lineSplit[3], "Drink Level" : lineSplit[4], "Ambience" : lineSplit[5], "Transport" : lineSplit[7], "Budget": lineSplit[17], "Cuisine": None, "Payment": None}
+			self.users[int(lineSplit[0][1:])] = {"Smoker":
+			lineSplit[3], "Drink Level" : lineSplit[4], "Ambience" :
+			lineSplit[5], "Transport" : lineSplit[7], "Budget":
+			lineSplit[17], "Cuisine": None, "Payment": None}
 		myfile.close()
 		myfile = open("data/userCuisine.csv")
 		users = self.get_users()
@@ -324,10 +327,12 @@ class _restaurant_database:
 	def get_payments(self):
 		payments = []
 		for rid in self.restaurants:
-			paymentset = self.restaurants[rid]["Payment Accepted"].split("|")
-			for payment in paymentset:
-				if payment not in payments:
-					payments.append(self.restaurants[rid]["Payment Accepted"])
+			paymentString = self.restaurants[rid]["Payment Accepted"]
+			if paymentString != None
+				paymentset = paymentString.split("|")
+				for payment in paymentset:
+					if payment not in payments:
+						payments.append(self.restaurants[rid]["Payment Accepted"])
 		return payments
 
 
