@@ -6,11 +6,14 @@ from users import UserController
 from ratings import RatingsController 
 from recommendations import RecController
 from options import OptionsController
-
+from cuisine import CuisineController
+from dresscode import DresscodeController
+from payment import PaymentController
+from price import PriceController 
 def CORS():
 	cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
 	cherrypy.response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE"
-	cherrypy.response.header["Access-Control-Allow-Credentials"] = "*"
+	cherrypy.response.headers["Access-Control-Allow-Credentials"] = "*"
 def start_service(): 
 	#the dispatcher tells what controller and what method should handle a request
 	dispatcher = cherrypy.dispatch.RoutesDispatcher()
@@ -23,8 +26,12 @@ def start_service():
 	restaurantController = RestaurantController(rdb)
 	userController = UserController(rdb)
 	ratingsController= RatingsController(rdb)
-	recController = RecController(rdb)i
+	recController = RecController(rdb)
 	optionsController = OptionsController()
+	cuisineController = CuisineController(rdb)
+	dresscodeController = DresscodeController(rdb)
+	paymentController = PaymentController(rdb)
+	priceController = PriceController(rdb) 
 #connect options for each resource 
 	dispatcher.connect('options_reset', '/reset/', 
 		controller = optionsController, 
@@ -48,6 +55,18 @@ def start_service():
 		controller = optionsController,
 		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
 	dispatcher.connect('options_recommendations', '/recommendations/',
+		controller = optionsController, 
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_cuisine', '/cuisine/',
+		controller = optionsController,
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_dress', '/dresscode/',
+		controller = optionsController, 
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_payment', '/payments/', 
+		controller = optionsController, 
+		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
+	dispatcher.connect('options_price', '/prices/',
 		controller = optionsController, 
 		action = 'OPTIONS', conditions = dict(method = ['OPTIONS']))
 #tell the dispatcher to use the reset controller for /reset/ 
@@ -129,6 +148,23 @@ def start_service():
 	dispatcher.connect('recs_get', '/recommendations/',
 		controller = recController,
 		action = 'GET', conditions = dict(method = ['GET']))
+#/cuisine/
+	dispatcher.connect('cuisine_get', '/cuisine/', 
+		controller = cuisineController, 
+		action = 'GET', conditions = dict(method = ['GET']))
+#/dresscode/
+	dispatcher.connect('dresscode_get', '/dresscode/', 
+		controller = dresscodeController,
+		action = 'GET', conditions = dict(method = ['GET']))
+#/payments/
+	dispatcher.connect('payments_get', '/payments/',
+		controller = paymentController, 
+		action= 'GET', conditions = dict(method = ['GET']))
+#/prices/
+	dispatcher.connect('prices_get',  '/prices/',
+		controller = priceController, 
+		action = 'GET', conditions = dict(method = ['GET']))
+
 	#configure the server to user student04 and port 51067
 	#configure server so the dispatcher is the one defined at top of method
 	conf = {'global': {

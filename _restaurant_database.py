@@ -304,35 +304,35 @@ class _restaurant_database:
 		return matches
 
 	def get_prices(self):
-		prices = []
+		prices = ["None"]
 		for rid in self.restaurants:
 			if self.restaurants[rid]["Price"] not in prices:
 				prices.append(self.restaurants[rid]["Price"])
 		return prices
 
 	def get_cuisines(self):
-		cuisines = []
+		cuisines = ["None"]
 		for rid in self.restaurants:
 			if self.restaurants[rid]["Cuisine"] not in cuisines:
 				cuisines.append(self.restaurants[rid]["Cuisine"])
 		return cuisines
 
 	def get_dresscode(self):
-		dresscodes = []
+		dresscodes = ["None"]
 		for rid in self.restaurants:
 			if self.restaurants[rid]["Dress Code"] not in dresscodes:
 				dresscodes.append(self.restaurants[rid]["Dress Code"])
 		return dresscodes
 
 	def get_payments(self):
-		payments = []
+		payments = ["None"]
 		for rid in self.restaurants:
 			paymentString = self.restaurants[rid]["Payment Accepted"]
-			if paymentString != None
+			if paymentString != None:
 				paymentset = paymentString.split("|")
 				for payment in paymentset:
 					if payment not in payments:
-						payments.append(self.restaurants[rid]["Payment Accepted"])
+						payments.append(payment)
 		return payments
 
 
