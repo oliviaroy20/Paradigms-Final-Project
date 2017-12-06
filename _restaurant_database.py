@@ -309,7 +309,7 @@ class _restaurant_database:
 
 	def get_cuisines(self):
 		cuisines = []
-		for rid in self.restuarants:
+		for rid in self.restaurants:
 			if self.restaurants[rid]["Cuisine"] not in cuisines:
 				cuisines.append(self.restaurants[rid]["Cuisine"])
 		return cuisines
@@ -324,8 +324,10 @@ class _restaurant_database:
 	def get_payments(self):
 		payments = []
 		for rid in self.restaurants:
-			if self.restaurants[rid]["Payment Accepted"] not in payments:
-				payments.append(self.restaurants[rid]["Payment Accepted"])
+			paymentset = self.restaurants[rid]["Payment Accepted"].split("|")
+			for payment in paymentset:
+				if payment not in payments:
+					payments.append(self.restaurants[rid]["Payment Accepted"])
 		return payments
 
 
