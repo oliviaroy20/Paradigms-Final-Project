@@ -313,8 +313,12 @@ class _restaurant_database:
 	def get_cuisines(self):
 		cuisines = ["None"]
 		for rid in self.restaurants:
-			if self.restaurants[rid]["Cuisine"] not in cuisines:
-				cuisines.append(self.restaurants[rid]["Cuisine"])
+			cuisineString = self.restaurants[rid]["Cuisine"]
+			if cuisineString != None and cuisineString != "null":
+				cuisineSet = cuisineString.split("|")
+				for cuisine in cuisineSet:
+					if cuisine not in cuisines:
+						cuisines.append(cuisine)
 		return cuisines
 
 	def get_dresscode(self):
