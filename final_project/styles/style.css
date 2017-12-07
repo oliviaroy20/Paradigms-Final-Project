@@ -1,0 +1,67 @@
+body{
+	background-color: rgba(110, 235, 231, 0.46);
+	text-align: center;	
+}
+#divLabelTitle{
+	text-align: center; 
+	font-variant: small-caps; 
+	font-weight: bold; 
+	font-size: 2em;
+}
+#divCuisine{
+	display: inline-block;
+	text-align: center;
+//	width: 25%;
+}
+#divLabelCuisine{
+//	width: 10%;
+	display: inline-block;
+	
+}
+#divDropdownCuisine{
+	display: inline-block; 
+}
+#divDressCode{
+	display: inline-block;
+	text-align: center;
+//	width: 25%; 
+}
+#divLabelDressCode{
+	//width: 10%;
+	display: inline-block; 
+}
+#divDropdownDressCode{
+	display: inline-block; 
+}
+#divPayment{
+//	width: 25%; 
+	display: inline-block; 
+	text-align: center;
+}
+#divLabelPayment{
+	//width: 10%;
+	display: inline-block; 
+}
+#divDropdownPayment{
+	display: inline-block;
+}
+
+#divPrice{
+//	width: 25%; 
+	display: inline-block
+}
+#divDropdownPrice{
+	display: inline-block; 
+//	width: 50%
+}
+#divLabelPrice{
+//	width: 10%;
+	display: inline-block; 
+}
+#divRating{
+	text-align: center;
+}
+#divExplanation{
+	text-align: center; 
+}
+

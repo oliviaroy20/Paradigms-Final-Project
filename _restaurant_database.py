@@ -262,7 +262,7 @@ class _restaurant_database:
 			#self.ratings[rid] = {}
 		self.ratings[int(rid)][int(uid)] = ratings
 
-	def set_filters(self, pricepoint, cuisinetype, dresscode, paymenttype):
+	def set_filters(self, cuisinetype, dresscode, paymenttype, pricepoint):
 		self.filters["Price"] = pricepoint
 		self.filters["Cuisine"] = cuisinetype
 		self.filters["Dress Code"] = dresscode
